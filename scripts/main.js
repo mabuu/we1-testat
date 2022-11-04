@@ -60,7 +60,7 @@ function compareHands() {
     const playerHand = this.value;
     const computerHand = HANDS[Math.floor(Math.random() * 5)];
     resultHeader.innerText = '';
-    chosenHandsHeader.innerText = `Player chose ${playerHand} and computer chose ${computerHand}`;
+    chosenHandsHeader.innerText = `${nickname} chose ${playerHand} and computer chose ${computerHand}`;
 
     const result = rules[playerHand][computerHand];
     switch (result) {
