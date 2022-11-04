@@ -10,40 +10,40 @@ const saveNameButton = document.getElementById('save-name-button');
 const changeNameButton = document.getElementById('change-name-button');
 const chosenHandsHeader = document.getElementById('chosen-hands-header');
 const rules = {
-    Rock: {
-        Rock: 0,
-        Paper: -1,
-        Scissors: 1,
-        Well: -1,
-        Match: 1,
+    rock: {
+        rock: 0,
+        paper: -1,
+        scissors: 1,
+        well: -1,
+        match: 1,
     },
-    Paper: {
-        Rock: 1,
-        Paper: 0,
-        Scissors: -1,
-        Well: 1,
-        Match: -1,
+    paper: {
+        rock: 1,
+        paper: 0,
+        scissors: -1,
+        well: 1,
+        match: -1,
     },
-    Scissors: {
-        Rock: -1,
-        Paper: 1,
-        Scissors: 0,
-        Well: -1,
-        Match: 1,
+    scissors: {
+        rock: -1,
+        paper: 1,
+        scissors: 0,
+        well: -1,
+        match: 1,
     },
-    Well: {
-        Rock: 1,
-        Paper: -1,
-        Scissors: 1,
-        Well: 0,
-        Match: -1,
+    well: {
+        rock: 1,
+        paper: -1,
+        scissors: 1,
+        well: 0,
+        match: -1,
     },
-    Match: {
-        Rock: -1,
-        Paper: 1,
-        Scissors: -1,
-        Well: 1,
-        Match: 0,
+    match: {
+        rock: -1,
+        paper: 1,
+        scissors: -1,
+        well: 1,
+        match: 0,
     },
 };
 
@@ -53,7 +53,6 @@ const rules = {
 function setNickname() {
     nickname = nameInput.value;
     greetHeader.innerText = `Hello ${nickname}! Choose your hand:`;
-    console.log(`the name ${nickname} was passed through the function saveName`);
 }
 saveNameButton.addEventListener('click', setNickname);
 
@@ -80,6 +79,11 @@ function compareHands() {
 }
 handButtons.forEach((handButton) => handButton.addEventListener('click', compareHands));
 
+function handChosen() {
+    const playerHand = this.value;
+    evaluateHand(nickname, playerHand, '?');
+}
+
 // TODO: Replace the following demo code. It should not be included in the final solution
 
 console.log('isConnected:', isConnected());
@@ -88,11 +92,6 @@ getRankings((rankings) => rankings.forEach((rankingEntry) => console.log(
     `Rank ${rankingEntry.rank} (${rankingEntry.wins} wins): ${rankingEntry.players}`,
 )));
 
-function pickHand() {
-    const handIndex = Math.floor(Math.random() * 3);
-    return HANDS[handIndex];
-}
-
 let count = 1;
 
 function printWinner(hand, didWin) {
@@ -100,7 +99,7 @@ function printWinner(hand, didWin) {
 }
 
 for (let i = 1; i < 10; i++) {
-    const playerHand = pickHand();
+    const playerHand = 'rock';
     evaluateHand('peter', playerHand,
         ({
              systemHand,

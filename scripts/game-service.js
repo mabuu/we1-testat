@@ -40,7 +40,7 @@ function getRankingsFromPlayerStats() {
   ];
 }
 
-export const HANDS = ['Rock', 'Paper', 'Scissors', 'Well', 'Match'];
+export const HANDS = ['rock', 'paper', 'scissors', 'well', 'match'];
 
 let isConnectedState = false;
 
@@ -58,10 +58,40 @@ export function getRankings(rankingsCallbackHandlerFn) {
 }
 
 const evalLookup = {
-  scissors: {
-    scissors: 0,
-    stone: 1,
+  rock: {
+    rock: 0,
     paper: -1,
+    scissors: 1,
+    well: -1,
+    match: 1,
+  },
+  paper: {
+    rock: 1,
+    paper: 0,
+    scissors: -1,
+    well: 1,
+    match: -1,
+  },
+  scissors: {
+    rock: -1,
+    paper: 1,
+    scissors: 0,
+    well: -1,
+    match: 1,
+  },
+  well: {
+    rock: 1,
+    paper: -1,
+    scissors: 1,
+    well: 0,
+    match: -1,
+  },
+  match: {
+    rock: -1,
+    paper: 1,
+    scissors: -1,
+    well: 1,
+    match: 0,
   },
 };
 
@@ -74,8 +104,8 @@ console.log('eval scissors-scissors: ', getGameEval('scissors', 'scissors'));
 export function evaluateHand(playerName, playerHand, gameRecordHandlerCallbackFn) {
   // TODO: Replace calculation of didWin and update rankings while doing so.
   // optional: in local-mode (isConnected == false) store rankings in the browser localStorage https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API
-  const systemHand = HANDS[Math.floor(Math.random() * 3)];
-  const gameEval = Math.floor(Math.random() * 3) - 1; // eval and hand do not match yet -> TODO
+  const systemHand = HANDS[Math.floor(Math.random() * 5)];
+  const gameEval = getGameEval(playerHand, systemHand);
   setTimeout(() => gameRecordHandlerCallbackFn({
     playerHand,
     systemHand,
