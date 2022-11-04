@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Schere Stein Papier</title>
+  <link rel="stylesheet" href="styles/global.css">
+  <script src="scripts/main.js" type="module"></script>
+</head>
+<body>
+<header>
+  <h1>Rock Paper Scissors Well Match</h1>
+</header>
+<section id="name-section">
+  <form id="name-from" onsubmit="event.preventDefault()">
+    <label for="name-input">Enter your nickname:</label>
+    <input id="name-input" required>
+    <button id="save-name-button" type="submit">Save nickname</button>
+  </form>
+</section>
+<section id="game-section">
+  <div>
+    <h2 id="greet-header"></h2>
+    <button id="change-name-button" type="button">Change nickname</button>
+  </div>
+  <div id="hand-choices-div">
+    <button id="rock-button" class="hand-buttons" type="button" value="Rock">Rock</button>
+    <button id="paper-button" class="hand-buttons" type="button" value="Paper">Paper</button>
+    <button id="scissors-button" class="hand-buttons" type="button" value="Scissors">Scissors</button>
+    <button id="well-button" class="hand-buttons" type="button" value="Well">Well</button>
+    <button id="match-button" class="hand-buttons" type="button" value="Match">Match</button>
+  </div>
+</section>
+<section id="result-section">
+  <h2 id="chosen-hands-header"></h2>
+  <h3 id="result-header"></h3>
+</section>
+</body>
+</html>
