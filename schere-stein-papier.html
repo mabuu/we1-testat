@@ -8,17 +8,17 @@
 </head>
 <body>
 <header>
-  <h1 id="main-heading">Rock Paper Scissors Well Match</h1>
+  <h1>Rock Paper Scissors Well Match</h1>
   <form id="name-form" onsubmit="event.preventDefault()" autocomplete="off">
   <label for="name-input">Nickname: </label>
     <input id="name-input" placeholder="Enter your nickname" required>
     <button id="save-name-button" type="submit">Save</button>
   </form>
 </header>
-<section id="game-section">
-  <div>
-    <h2 id="greet-header"> </h2>
-  </div>
+<section>
+  <h2 id="greet-header">Please enter your nickname to continue</h2>
+</section>
+<section id="game-section" hidden>
   <article id="hand-choices-article" class="box">
     <button id="rock-button" class="hand-buttons" type="button" value="rock">Rock</button>
     <button id="paper-button" class="hand-buttons" type="button" value="paper">Paper</button>
@@ -27,12 +27,13 @@
     <button id="match-button" class="hand-buttons" type="button" value="match">Match</button>
   </article>
 </section>
-<section id="result-section">
+<section id="result-section" hidden>
   <h2 id="result-header">&nbsp</h2>
   <h3>History</h3>
   <table id="history-table">
     <thead>
     <tr>
+      <th>Result</th>
       <th>Player name</th>
       <th>Player hand</th>
       <th>Computer hand</th>

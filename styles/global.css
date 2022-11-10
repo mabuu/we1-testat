@@ -49,15 +49,16 @@ input {
 }
 
 section {
-    margin-left: 20px;
-    margin-right: 20px;
+    margin-left: 10%;
+    margin-right: 10%;
     margin-bottom: 20px;
     max-width: 1000px;
 }
 
 #result-section {
     margin-top: 0;
-    border-top-style: ridge;
+    border-top-style: solid;
+    border-color: #8c195fff;
 }
 
 .box {
@@ -81,4 +82,19 @@ section {
     border-color: black;
     background-color: #8c195fff;
     color: white;
+}
+
+table {
+    border: #8c195fff;
+    border-style: dashed;
+    width: 100%;
+}
+
+th {
+    border-bottom: 1px solid #8c195fff;
+    text-align: start;
+}
+
+tr:nth-child(even) {
+    background: #ffabc6;
 }

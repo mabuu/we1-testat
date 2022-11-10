@@ -1,13 +1,14 @@
 import {HANDS, isConnected, getRankings, evaluateHand} from './game-service.js';
 
-let nickname;
-
 const nameInput = document.getElementById('name-input');
 const greetHeader = document.getElementById('greet-header');
+const gameSection = document.getElementById('game-section');
 const handButtons = document.querySelectorAll('.hand-buttons');
 const resultHeader = document.getElementById('result-header');
+const resultSection = document.getElementById('result-section');
 const saveNameButton = document.getElementById('save-name-button');
-const historyTable = document.getElementById('history-table');
+const historyTableBody = document.getElementById('history-table')
+    .getElementsByTagName('tbody');
 const rules = {
     rock: {
         rock: 0,
@@ -45,34 +46,49 @@ const rules = {
         match: 0,
     },
 };
+let nickname;
 
-// TODO: How to keep track of App state?
-// TODO: Create View functions
+function toggleVisibility(element) {
+    const isHidden = element.hidden;
+    element.hidden = !isHidden;
+}
+
+function unhideElement(element) {
+    element.hidden = false;
+}
 
 function setNickname() {
     nickname = nameInput.value;
     greetHeader.innerText = `Hello ${nickname}! Choose your hand:`;
+    unhideElement(gameSection);
 }
 saveNameButton.addEventListener('click', setNickname);
+
+function displayResults(playerHand, computerHand, resultEmoji) {
+    resultHeader.innerText = `${nickname} throws ${playerHand} against ${computerHand}`;
+    historyTableBody[0].insertAdjacentHTML('afterbegin', `<tr>
+        <td>${resultEmoji}</td>
+        <td>${nickname}</td>
+        <td>${playerHand}</td>
+        <td>${computerHand}</td>
+    </tr>`);
+    unhideElement(resultSection);
+}
 
 function compareHands() {
     const playerHand = this.value;
     const computerHand = HANDS[Math.floor(Math.random() * 5)];
-    resultHeader.innerText = '';
-
-    historyTable.insertAdjacentHTML('afterbegin', `<tr><td>${nickname}</td><td>${playerHand}</td><td>${computerHand}</td></tr>`);
-    history.push({nickname, playerHand, computerHand});
-
     const result = rules[playerHand][computerHand];
+
     switch (result) {
         case 1:
-            resultHeader.innerText = `${nickname} wins with ${playerHand}!`;
+            displayResults(playerHand, computerHand, '&#9989');
             break;
         case 0:
-            resultHeader.innerText = `It's a draw!! Both chose ${playerHand}`;
+            displayResults(playerHand, computerHand, '&#129008');
             break;
         case -1:
-            resultHeader.innerText = `You lost against ${computerHand}`;
+            displayResults(playerHand, computerHand, '&#10060');
             break;
         default:
             resultHeader.innerText = `Sorry ${nickname}, something messed up :(`;
