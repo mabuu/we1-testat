@@ -7,8 +7,7 @@ const greetHeader = document.getElementById('greet-header');
 const handButtons = document.querySelectorAll('.hand-buttons');
 const resultHeader = document.getElementById('result-header');
 const saveNameButton = document.getElementById('save-name-button');
-const changeNameButton = document.getElementById('change-name-button');
-const chosenHandsHeader = document.getElementById('chosen-hands-header');
+const historyTable = document.getElementById('history-table');
 const rules = {
     rock: {
         rock: 0,
@@ -60,7 +59,9 @@ function compareHands() {
     const playerHand = this.value;
     const computerHand = HANDS[Math.floor(Math.random() * 5)];
     resultHeader.innerText = '';
-    chosenHandsHeader.innerText = `${nickname} chose ${playerHand} and computer chose ${computerHand}`;
+
+    historyTable.insertAdjacentHTML('afterbegin', `<tr><td>${nickname}</td><td>${playerHand}</td><td>${computerHand}</td></tr>`);
+    history.push({nickname, playerHand, computerHand});
 
     const result = rules[playerHand][computerHand];
     switch (result) {
@@ -75,6 +76,7 @@ function compareHands() {
             break;
         default:
             resultHeader.innerText = `Sorry ${nickname}, something messed up :(`;
+            break;
     }
 }
 handButtons.forEach((handButton) => handButton.addEventListener('click', compareHands));
