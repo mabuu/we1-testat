@@ -20,7 +20,7 @@
     "object-curly-spacing": "off",
     "no-restricted-syntax": "off",
     "@web-and-design/wed/no-while": "warn",
-    "@web-and-design/wed/use-action-map": "warn",
+    "@web-and-design/wed/use-action-map": "off",
     "@web-and-design/wed/check-html-gen": "warn"
   },
   "plugins": [
