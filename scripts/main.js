@@ -7,8 +7,10 @@ const handButtons = document.querySelectorAll('.hand-buttons');
 const resultHeader = document.getElementById('result-header');
 const resultSection = document.getElementById('result-section');
 const saveNameButton = document.getElementById('save-name-button');
-const historyTableBody = document.getElementById('history-table')
-    .getElementsByTagName('tbody');
+const historyTableBody = document.getElementById('history-tbody');
+const showScoreboardButton = document.getElementById('show-scoreboard-button');
+const closeScoreboardButton = document.getElementById('close-scoreboard-button');
+const scoreboardSection = document.getElementById('scoreboard-section');
 const rules = {
     rock: {
         rock: 0,
@@ -64,9 +66,16 @@ function setNickname() {
 }
 saveNameButton.addEventListener('click', setNickname);
 
+
+function showScoreboardSection() {
+    toggleVisibility(scoreboardSection);
+}
+showScoreboardButton.addEventListener('click', showScoreboardSection);
+closeScoreboardButton.addEventListener('click', showScoreboardSection);
+
 function displayResults(playerHand, computerHand, resultEmoji) {
-    resultHeader.innerText = `${nickname} throws ${playerHand} against ${computerHand}`;
-    historyTableBody[0].insertAdjacentHTML('afterbegin', `<tr>
+    resultHeader.innerHTML = `${resultEmoji} | ${nickname} throws ${playerHand} against ${computerHand}`;
+    historyTableBody.insertAdjacentHTML('afterbegin', `<tr>
         <td>${resultEmoji}</td>
         <td>${nickname}</td>
         <td>${playerHand}</td>

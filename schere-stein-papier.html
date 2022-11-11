@@ -1,47 +1,66 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <title>Rock Paper Scissors Well Match</title>
-  <link rel="stylesheet" href="styles/global.css">
-  <script src="scripts/main.js" type="module"></script>
+    <meta charset="UTF-8">
+    <title>Rock Paper Scissors Well Match</title>
+    <link rel="stylesheet" href="styles/global.css">
+    <script src="scripts/main.js" type="module"></script>
 </head>
 <body>
 <header>
-  <h1>Rock Paper Scissors Well Match</h1>
-  <form id="name-form" onsubmit="event.preventDefault()" autocomplete="off">
-  <label for="name-input">Nickname: </label>
-    <input id="name-input" placeholder="Enter your nickname" required>
-    <button id="save-name-button" type="submit">Save</button>
-  </form>
+    <h1>Rock Paper Scissors Well Match</h1>
+    <button id="show-scoreboard-button">Scoreboard</button>
+    <form id="name-form" onsubmit="event.preventDefault()" autocomplete="off">
+        <label for="name-input">Nickname: </label>
+        <input id="name-input" placeholder="Enter your nickname" required>
+        <button id="save-name-button" type="submit">Save</button>
+    </form>
 </header>
 <section>
-  <h2 id="greet-header">Please enter your nickname to continue</h2>
+    <h2 id="greet-header">Please enter your nickname to continue</h2>
 </section>
 <section id="game-section" hidden>
-  <article id="hand-choices-article" class="box">
-    <button id="rock-button" class="hand-buttons" type="button" value="rock">Rock</button>
-    <button id="paper-button" class="hand-buttons" type="button" value="paper">Paper</button>
-    <button id="scissors-button" class="hand-buttons" type="button" value="scissors">Scissors</button>
-    <button id="well-button" class="hand-buttons" type="button" value="well">Well</button>
-    <button id="match-button" class="hand-buttons" type="button" value="match">Match</button>
-  </article>
+    <article id="hand-choices-article" class="box">
+        <button id="rock-button" class="hand-buttons" type="button" value="rock">Rock</button>
+        <button id="paper-button" class="hand-buttons" type="button" value="paper">Paper</button>
+        <button id="scissors-button" class="hand-buttons" type="button" value="scissors">Scissors</button>
+        <button id="well-button" class="hand-buttons" type="button" value="well">Well</button>
+        <button id="match-button" class="hand-buttons" type="button" value="match">Match</button>
+    </article>
 </section>
 <section id="result-section" hidden>
-  <h2 id="result-header">&nbsp</h2>
-  <h3>History</h3>
-  <table id="history-table">
-    <thead>
-    <tr>
-      <th>Result</th>
-      <th>Player name</th>
-      <th>Player hand</th>
-      <th>Computer hand</th>
-    </tr>
-    </thead>
-    <tbody>
-    </tbody>
-  </table>
+    <h2 id="result-header">&nbsp</h2>
+    <h3>History</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Result</th>
+            <th>Player name</th>
+            <th>Player hand</th>
+            <th>Opponent hand</th>
+        </tr>
+        </thead>
+        <tbody id="history-tbody">
+        </tbody>
+    </table>
+</section>
+<section id="scoreboard-section" hidden>
+    <div id="scoreboard-overlay"></div>
+    <div class="modal">
+        <h3>Scoreboard</h3>
+        <button id="close-scoreboard-button">Close scoreboard</button>
+        <table>
+            <thead>
+            <tr>
+                <th>Ranking</th>
+                <th>Player name</th>
+                <th>Number of wins</th>
+            </tr>
+            </thead>
+            <tbody id="scoreboard-tbody">
+            </tbody>
+        </table>
+    </div>
 </section>
 </body>
 </html>
