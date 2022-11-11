@@ -8,6 +8,7 @@ const resultHeader = document.getElementById('result-header');
 const resultSection = document.getElementById('result-section');
 const saveNameButton = document.getElementById('save-name-button');
 const historyTableBody = document.getElementById('history-tbody');
+const scoreboardTableBody = document.getElementById('scoreboard-tbody');
 const showScoreboardButton = document.getElementById('show-scoreboard-button');
 const closeScoreboardButton = document.getElementById('close-scoreboard-button');
 const scoreboardSection = document.getElementById('scoreboard-section');
@@ -48,6 +49,7 @@ const rules = {
         match: 0,
     },
 };
+const scores = {};
 let nickname;
 
 function toggleVisibility(element) {
@@ -64,14 +66,17 @@ function setNickname() {
     greetHeader.innerText = `Hello ${nickname}! Choose your hand:`;
     unhideElement(gameSection);
 }
-saveNameButton.addEventListener('click', setNickname);
-
 
 function showScoreboardSection() {
     toggleVisibility(scoreboardSection);
+    scoreboardTableBody.innerText = '';
+    for (const [playerName, playerScore] of Object.entries(scores)) {
+        scoreboardTableBody.insertAdjacentHTML('afterbegin', `<tr>
+        <td>${playerName}</td>
+        <td>${playerScore}</td>
+    </tr>`);
+    }
 }
-showScoreboardButton.addEventListener('click', showScoreboardSection);
-closeScoreboardButton.addEventListener('click', showScoreboardSection);
 
 function displayResults(playerHand, computerHand, resultEmoji) {
     resultHeader.innerHTML = `${resultEmoji} | ${nickname} throws ${playerHand} against ${computerHand}`;
@@ -84,10 +89,15 @@ function displayResults(playerHand, computerHand, resultEmoji) {
     unhideElement(resultSection);
 }
 
+function updateScore(score) {
+    scores[nickname] = (typeof scores[nickname] === 'undefined') ? score : scores[nickname] + score;
+}
+
 function compareHands() {
     const playerHand = this.value;
     const computerHand = HANDS[Math.floor(Math.random() * 5)];
     const result = rules[playerHand][computerHand];
+    updateScore(result);
 
     switch (result) {
         case 1:
@@ -104,32 +114,10 @@ function compareHands() {
             break;
     }
 }
-handButtons.forEach((handButton) => handButton.addEventListener('click', compareHands));
 
-function handChosen() {
-    const playerHand = this.value;
-    evaluateHand(nickname, playerHand, '?');
-}
-
-// TODO: Replace the following demo code. It should not be included in the final solution
-
-console.log('isConnected:', isConnected());
-
-getRankings((rankings) => rankings.forEach((rankingEntry) => console.log(
-    `Rank ${rankingEntry.rank} (${rankingEntry.wins} wins): ${rankingEntry.players}`,
-)));
-
-let count = 1;
-
-function printWinner(hand, didWin) {
-    console.log(count++, hand, didWin);
-}
-
-for (let i = 1; i < 10; i++) {
-    const playerHand = 'rock';
-    evaluateHand('peter', playerHand,
-        ({
-             systemHand,
-             gameEval,
-         }) => printWinner(playerHand, systemHand, gameEval));
-}
+closeScoreboardButton.addEventListener('click', showScoreboardSection);
+showScoreboardButton.addEventListener('click', showScoreboardSection);
+saveNameButton.addEventListener('click', setNickname);
+handButtons.forEach(
+    (handButton) => handButton.addEventListener('click', compareHands),
+);
