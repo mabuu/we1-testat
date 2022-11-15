@@ -1,9 +1,9 @@
-import {HANDS} from './game-service.js';
+import {HANDS, isConnected, getRankings, evaluateHand} from './game-service.js';
 
 const nameInput = document.getElementById('name-input');
 const greetHeader = document.getElementById('greet-header');
 const gameSection = document.getElementById('game-section');
-const handButtons = document.querySelectorAll('.hand-buttons');
+const handButtons = Array.prototype.slice.call(document.querySelectorAll('.hand-buttons'));
 const resultHeader = document.getElementById('result-header');
 const resultSection = document.getElementById('result-section');
 const saveNameButton = document.getElementById('save-name-button');
@@ -82,10 +82,16 @@ function createScoreboard() {
         .sort((a, b) => a - b);
 }
 
+function timerExpired() {
+    console.log('timer expired now!');
+    return 'timer expired';
+}
+
 function showScoreboardSection() {
     toggleVisibility(scoreboardSection);
     scoreboardTableBody.innerText = '';
-    const scores = createScoreboard();
+    //const scores = createScoreboard();
+    getRankings(timerExpired());
     for (const score of scores) {
         scoreboardTableBody.insertAdjacentHTML('afterbegin', `<tr>
         <td>${score}</td>
@@ -134,6 +140,25 @@ function compareHands() {
 closeScoreboardButton.addEventListener('click', showScoreboardSection);
 showScoreboardButton.addEventListener('click', showScoreboardSection);
 saveNameButton.addEventListener('click', setNickname);
+
+function testingSomething(value) {
+    console.log(`callback function triggered: ${value}`);
+}
+
 handButtons.forEach(
-    (handButton) => handButton.addEventListener('click', compareHands),
+    // (handButton) => handButton.addEventListener('click', compareHands),
+    // (handButton) => handButton.addEventListener('click', evaluateHand(nickname, this.value, displayResults)),
+    (handButton) => {
+        const {value} = handButton;
+        handButton.addEventListener('click', () => evaluateHand(nickname, value, displayResults));
+    },
 );
+
+/*
+function testingSomething() {
+    console.log('callback function triggered');
+}
+
+const rockButton = document.getElementById('rock-button');
+rockButton.addEventListener('click', () => evaluateHand(nickname, rockButton.value, testingSomething));
+*/
