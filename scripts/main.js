@@ -1,4 +1,4 @@
-import {HANDS, isConnected, getRankings, evaluateHand} from './game-service.js';
+import {HANDS} from './game-service.js';
 
 const nameInput = document.getElementById('name-input');
 const greetHeader = document.getElementById('greet-header');
@@ -50,6 +50,7 @@ const rules = {
     },
 };
 const scores = {};
+let scoreboard = {};
 let nickname;
 
 function toggleVisibility(element) {
@@ -61,19 +62,35 @@ function unhideElement(element) {
     element.hidden = false;
 }
 
+function hideElement(element) {
+    element.hidden = true;
+}
+
 function setNickname() {
     nickname = nameInput.value;
     greetHeader.innerText = `Hello ${nickname}! Choose your hand:`;
     unhideElement(gameSection);
+    hideElement(scoreboardSection);
+}
+
+function createScoreboard() {
+    scoreboard = {};
+    for (const [playerName, playerScore] of Object.entries(scores)) {
+        (typeof scoreboard[playerScore] === 'undefined') ? scoreboard[playerScore] = [playerName] : scoreboard[playerScore].push(playerName);
+    }
+    return Object.keys(scoreboard)
+        .map(Number)
+        .sort((a, b) => a - b);
 }
 
 function showScoreboardSection() {
     toggleVisibility(scoreboardSection);
     scoreboardTableBody.innerText = '';
-    for (const [playerName, playerScore] of Object.entries(scores)) {
+    scoreboard = createScoreboard();
+    for (const key of createScoreboard()) {
         scoreboardTableBody.insertAdjacentHTML('afterbegin', `<tr>
-        <td>${playerName}</td>
-        <td>${playerScore}</td>
+        <td>${key}</td>
+        <td>${scoreboard[key].join(' & ')}</td>
     </tr>`);
     }
 }
