@@ -9,7 +9,7 @@ const resultSection = document.getElementById('result-section');
 const saveNameButton = document.getElementById('save-name-button');
 const historyTableBody = document.getElementById('history-tbody');
 const scoreboardTableBody = document.getElementById('scoreboard-tbody');
-const showScoreboardButton = document.getElementById('show-scoreboard-button');
+const showScoreboardButton = document.getElementById('toggle-scoreboard-button');
 const closeScoreboardButton = document.getElementById('close-scoreboard-button');
 const scoreboardSection = document.getElementById('scoreboard-section');
 const rules = {
@@ -49,13 +49,12 @@ const rules = {
         match: 0,
     },
 };
-const scores = {};
-let scoreboard = {};
+const localUserScores = {};
+let numericalScores = {};
 let nickname;
 
 function toggleVisibility(element) {
-    const isHidden = element.hidden;
-    element.hidden = !isHidden;
+    element.hidden = !element.hidden;
 }
 
 function unhideElement(element) {
@@ -74,11 +73,11 @@ function setNickname() {
 }
 
 function createScoreboard() {
-    scoreboard = {};
-    for (const [playerName, playerScore] of Object.entries(scores)) {
-        (typeof scoreboard[playerScore] === 'undefined') ? scoreboard[playerScore] = [playerName] : scoreboard[playerScore].push(playerName);
+    numericalScores = {};
+    for (const [playerName, playerScore] of Object.entries(localUserScores)) {
+        (typeof numericalScores[playerScore] === 'undefined') ? numericalScores[playerScore] = [playerName] : numericalScores[playerScore].push(playerName);
     }
-    return Object.keys(scoreboard)
+    return Object.keys(numericalScores)
         .map(Number)
         .sort((a, b) => a - b);
 }
@@ -86,11 +85,11 @@ function createScoreboard() {
 function showScoreboardSection() {
     toggleVisibility(scoreboardSection);
     scoreboardTableBody.innerText = '';
-    scoreboard = createScoreboard();
-    for (const key of createScoreboard()) {
+    const scores = createScoreboard();
+    for (const score of scores) {
         scoreboardTableBody.insertAdjacentHTML('afterbegin', `<tr>
-        <td>${key}</td>
-        <td>${scoreboard[key].join(' & ')}</td>
+        <td>${score}</td>
+        <td>${numericalScores[score].join(' & ')}</td>
     </tr>`);
     }
 }
@@ -107,7 +106,7 @@ function displayResults(playerHand, computerHand, resultEmoji) {
 }
 
 function updateScore(score) {
-    scores[nickname] = (typeof scores[nickname] === 'undefined') ? score : scores[nickname] + score;
+    localUserScores[nickname] = (typeof localUserScores[nickname] === 'undefined') ? score : localUserScores[nickname] + score;
 }
 
 function compareHands() {

@@ -39,6 +39,20 @@ header {
     justify-content: left;
 }
 
+button:hover {
+    cursor: pointer;
+}
+
+#toggle-scoreboard-button {
+    margin-left: 1rem;
+    margin-right: 1rem;
+    border: none;
+    background-color: transparent;
+    text-decoration: underline;
+    color: var(--white);
+    font-size: medium;
+}
+
 #name-form {
     display: flex;
     align-items: center;
@@ -117,7 +131,14 @@ tr:nth-child(even) {
     background: var(--accent1);
 }
 
-/* inserting rank number in scoreboard */
+#close-scoreboard-button {
+    margin: 1rem;
+    text-decoration: underline;
+    background-color: transparent;
+    color: var(--accent3);
+    border: none;
+}
+
 #scoreboard-tbody table {
     counter-reset: rowNumber;
 }
