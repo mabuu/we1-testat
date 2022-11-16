@@ -2,7 +2,6 @@ const DELAY_MS = 500;
 const localUserScores = {};
 let numericalScores = {};
 
-// TODO: Update this function to do the right thing
 function getRankingsFromPlayerStats() {
   numericalScores = {};
   for (const [playerName, playerScore] of Object.entries(localUserScores)) {
@@ -11,25 +10,15 @@ function getRankingsFromPlayerStats() {
     } else {
       numericalScores[playerScore].push(playerName);
     }
-    return Object.keys(numericalScores)
-        .map(Number)
-        .sort((a, b) => a - b);
   }
-
-  Object.keys(playerStats);
-  // magic happens
-  return [
-    {
-      rank: 1,
-      wins: 4,
-      players: ['Michael', 'Lisa'],
-    },
-    {
-      rank: 2,
-      wins: 3,
-      players: ['Markus'],
-    },
-  ];
+  const sortedScores = Object.keys(numericalScores)
+      .map(Number)
+      .sort((a, b) => a - b);
+  const sortedScoreboard = [];
+  for (const score of sortedScores) {
+    sortedScoreboard.push([score, numericalScores[score]]);
+  }
+  return sortedScoreboard;
 }
 
 export const HANDS = ['rock', 'paper', 'scissors', 'well', 'match'];
@@ -45,8 +34,8 @@ export function isConnected() {
 }
 
 export function getRankings(rankingsCallbackHandlerFn) {
-  const rankingsArray = getRankingsFromPlayerStats();
-  setTimeout(() => rankingsCallbackHandlerFn(rankingsArray), DELAY_MS);
+  const scoreboard = getRankingsFromPlayerStats();
+  setTimeout(() => rankingsCallbackHandlerFn(scoreboard), DELAY_MS);
 }
 
 const evalLookup = {
@@ -92,10 +81,7 @@ function getGameEval(playerHand, systemHand) {
 }
 
 export function evaluateHand(playerName, playerHand, gameRecordHandlerCallbackFn) {
-  // TODO: Replace calculation of didWin and update rankings while doing so.
-  // optional: in local-mode (isConnected == false) store rankings in the browser localStorage https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API
   const systemHand = HANDS[Math.floor(Math.random() * 5)];
-  console.log(playerHand + systemHand);
   const gameEval = getGameEval(playerHand, systemHand);
   let resultEmoji;
   switch (gameEval) {
