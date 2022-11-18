@@ -1,4 +1,4 @@
-const DELAY_MS = 500;
+const DELAY_MS = 1000;
 const localUserScores = {};
 let numericalScores = {};
 
@@ -35,7 +35,7 @@ export function isConnected() {
 
 export function getRankings(rankingsCallbackHandlerFn) {
   const scoreboard = getRankingsFromPlayerStats();
-  setTimeout(() => rankingsCallbackHandlerFn(scoreboard), DELAY_MS);
+  rankingsCallbackHandlerFn(scoreboard);
 }
 
 const evalLookup = {

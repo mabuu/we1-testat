@@ -12,6 +12,7 @@ const scoreboardTableBody = document.getElementById('scoreboard-tbody');
 const showScoreboardButton = document.getElementById('toggle-scoreboard-button');
 const closeScoreboardButton = document.getElementById('close-scoreboard-button');
 const scoreboardSection = document.getElementById('scoreboard-section');
+const timeoutSection = document.getElementById('timeout-section');
 let nickname;
 
 function toggleVisibility(element) {
@@ -24,6 +25,10 @@ function unhideElement(element) {
 
 function hideElement(element) {
     element.hidden = true;
+}
+
+function visualizeTimeout() {
+    unhideElement(timeoutSection);
 }
 
 function setNickname() {
@@ -56,6 +61,7 @@ function displayResults(playerHand, computerHand, resultEmoji) {
         <td>${playerHand}</td>
         <td>${computerHand}</td>
     </tr>`);
+    hideElement(timeoutSection);
     unhideElement(resultSection);
 }
 
@@ -65,6 +71,9 @@ saveNameButton.addEventListener('click', setNickname);
 handButtons.forEach(
     (handButton) => {
         const {value} = handButton;
-        handButton.addEventListener('click', () => evaluateHand(nickname, value, displayResults));
+        handButton.addEventListener('click', () => {
+            evaluateHand(nickname, value, displayResults);
+            visualizeTimeout();
+        });
     },
 );
