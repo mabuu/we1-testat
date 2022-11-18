@@ -92,7 +92,7 @@ section {
     flex-wrap: wrap;
 }
 
-#hand-choices-article button {
+#hand-choices-div button {
     height: 120px;
     width: 120px;
     font-size: large;
@@ -102,7 +102,7 @@ section {
     margin: 10px;
 }
 
-#hand-choices-article button:active {
+#hand-choices-div button:active {
     transform: translateY(5%);
     border-color: black;
     background-color: #8c195fff;

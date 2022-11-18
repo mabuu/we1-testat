@@ -1,19 +1,27 @@
 import {HANDS, isConnected, getRankings, evaluateHand} from './game-service.js';
 
 const nameInput = document.getElementById('name-input');
-const greetHeader = document.getElementById('greet-header');
 const gameSection = document.getElementById('game-section');
-const handButtons = Array.prototype.slice.call(document.querySelectorAll('.hand-buttons'));
+const greetHeader = document.getElementById('greet-header');
 const resultHeader = document.getElementById('result-header');
 const resultSection = document.getElementById('result-section');
+const handChoicesDiv = document.getElementById('hand-choices-div');
 const saveNameButton = document.getElementById('save-name-button');
+const timeoutSection = document.getElementById('timeout-section');
 const historyTableBody = document.getElementById('history-tbody');
+const scoreboardSection = document.getElementById('scoreboard-section');
 const scoreboardTableBody = document.getElementById('scoreboard-tbody');
 const showScoreboardButton = document.getElementById('toggle-scoreboard-button');
 const closeScoreboardButton = document.getElementById('close-scoreboard-button');
-const scoreboardSection = document.getElementById('scoreboard-section');
-const timeoutSection = document.getElementById('timeout-section');
 let nickname;
+
+HANDS.forEach((hand) => {
+    handChoicesDiv.insertAdjacentHTML('beforeend', `
+        <button id="${hand}-button" class="hand-buttons" type="button" value="${hand}">${hand.charAt(0)
+        .toUpperCase() + hand.slice(1)}</button>
+    `);
+});
+const handButtons = Array.prototype.slice.call(document.querySelectorAll('.hand-buttons'));
 
 function toggleVisibility(element) {
     element.hidden = !element.hidden;
