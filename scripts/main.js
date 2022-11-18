@@ -16,6 +16,7 @@ const closeScoreboardButton = document.getElementById('close-scoreboard-button')
 let nickname;
 
 HANDS.forEach((hand) => {
+    if (isConnected()) { greetHeader.innerText = 'connected to server'; }
     handChoicesDiv.insertAdjacentHTML('beforeend', `
         <button id="${hand}-button" class="hand-buttons" type="button" value="${hand}">${hand.charAt(0)
         .toUpperCase() + hand.slice(1)}</button>
