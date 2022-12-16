@@ -1,4 +1,4 @@
-import {HANDS, isConnected, getRankings, evaluateHand} from './game-service.js';
+import {HANDS, isConnected, getRankings, evaluateHand, setConnected} from './game-service.js';
 
 const nameInput = document.getElementById('name-input');
 const gameSection = document.getElementById('game-section');
@@ -13,16 +13,18 @@ const scoreboardSection = document.getElementById('scoreboard-section');
 const scoreboardTableBody = document.getElementById('scoreboard-tbody');
 const showScoreboardButton = document.getElementById('toggle-scoreboard-button');
 const closeScoreboardButton = document.getElementById('close-scoreboard-button');
+const toggleServerModeButton = document.getElementById('toggle-server-mode-button');
 let nickname;
 
 HANDS.forEach((hand) => {
-    if (isConnected()) { greetHeader.innerText = 'connected to server'; }
+    if (isConnected()) {
+        greetHeader.innerText = 'Servermodus aktiviert';
+    }
     handChoicesDiv.insertAdjacentHTML('beforeend', `
-        <button id="${hand}-button" class="hand-buttons" type="button" value="${hand}">${hand.charAt(0)
+    <button id="${hand}-button" class="hand-buttons" type="button" value="${hand}">${hand.charAt(0)
         .toUpperCase() + hand.slice(1)}</button>
-    `);
+`);
 });
-const handButtons = Array.prototype.slice.call(document.querySelectorAll('.hand-buttons'));
 
 function toggleVisibility(element) {
     element.hidden = !element.hidden;
@@ -40,9 +42,21 @@ function visualizeTimeout() {
     unhideElement(timeoutSection);
 }
 
+function toggleServerMode() {
+    if (isConnected()) {
+        toggleServerModeButton.innerText = 'Servermodus: aus';
+        setConnected(false);
+        generateHandButtons();
+    } else {
+        toggleServerModeButton.innerText = 'Servermodus: aktiviert';
+        setConnected(true);
+        generateHandButtons();
+    }
+}
+
 function setNickname() {
     nickname = nameInput.value;
-    greetHeader.innerText = `Hello ${nickname}! Choose your hand:`;
+    greetHeader.innerText = `Hallo ${nickname}! Wähle eine Hand:`;
     unhideElement(gameSection);
     hideElement(scoreboardSection);
 }
@@ -63,7 +77,7 @@ function showScoreboardSection() {
 }
 
 function displayResults(playerHand, computerHand, resultEmoji) {
-    resultHeader.innerHTML = `${resultEmoji} | ${nickname} throws ${playerHand} against ${computerHand}`;
+    resultHeader.innerHTML = `${resultEmoji} | ${nickname} spielt ${playerHand} gegen ${computerHand}`;
     historyTableBody.insertAdjacentHTML('afterbegin', `<tr>
         <td>${resultEmoji}</td>
         <td>${nickname}</td>
@@ -74,9 +88,12 @@ function displayResults(playerHand, computerHand, resultEmoji) {
     unhideElement(resultSection);
 }
 
+toggleServerModeButton.addEventListener('click', toggleServerMode);
 closeScoreboardButton.addEventListener('click', showScoreboardSection);
 showScoreboardButton.addEventListener('click', showScoreboardSection);
 saveNameButton.addEventListener('click', setNickname);
+
+const handButtons = Array.prototype.slice.call(document.querySelectorAll('.hand-buttons'));
 handButtons.forEach(
     (handButton) => {
         const {value} = handButton;

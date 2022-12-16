@@ -48,6 +48,16 @@ button:hover {
     cursor: pointer;
 }
 
+#toggle-server-mode-button {
+    margin-left: 1rem;
+    margin-right: 1rem;
+    border: none;
+    background-color: transparent;
+    text-decoration: underline;
+    color: var(--white);
+    font-size: medium;
+}
+
 #toggle-scoreboard-button {
     margin-left: 1rem;
     margin-right: 1rem;

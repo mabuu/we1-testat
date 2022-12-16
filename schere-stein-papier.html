@@ -2,36 +2,37 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>Rock Paper Scissors Well Match</title>
+    <title>Schere Stein Papier Brunnen Streichholz</title>
     <link rel="stylesheet" href="styles/global.css">
     <script src="scripts/main.js" type="module"></script>
 </head>
 <body>
 <header>
-    <h1>Rock Paper Scissors Well Match</h1>
-    <button id="toggle-scoreboard-button">Scoreboard</button>
+    <h1>Schere Stein Papier Brunnen Streichholz</h1>
+    <button id="toggle-server-mode-button">Servermodus: aus</button>
+    <button id="toggle-scoreboard-button">Rangliste</button>
     <form id="name-form" onsubmit="event.preventDefault()" autocomplete="off">
-        <label for="name-input">Nickname: </label>
-        <input id="name-input" placeholder="Enter your nickname" required>
-        <button id="save-name-button" type="submit">Save</button>
+        <label for="name-input">Name: </label>
+        <input id="name-input" placeholder="Namen eingeben" required>
+        <button id="save-name-button" type="submit">Speichern</button>
     </form>
 </header>
 <section>
-    <h2 id="greet-header">Please enter your nickname to continue</h2>
+    <h2 id="greet-header">Zum Spielen bitte einen Namen eingeben</h2>
 </section>
 <section id="game-section" hidden>
     <div id="hand-choices-div" class="box"></div>
 </section>
 <section id="result-section" hidden>
     <h2 id="result-header">&nbsp</h2>
-    <h3>History</h3>
+    <h3>Verlauf</h3>
     <table>
         <thead>
         <tr>
-            <th>Result</th>
-            <th>Player name</th>
-            <th>Player hand</th>
-            <th>Opponent hand</th>
+            <th>Resultat</th>
+            <th>Name</th>
+            <th>Spielerhand</th>
+            <th>Hand des Gegners</th>
         </tr>
         </thead>
         <tbody id="history-tbody">
@@ -41,14 +42,14 @@
 <section id="scoreboard-section" hidden>
     <div id="scoreboard-overlay"></div>
     <div class="modal">
-        <h3>Scoreboard</h3>
-        <button id="close-scoreboard-button">Close scoreboard</button>
+        <h3>Rangliste</h3>
+        <button id="close-scoreboard-button">Rangliste schliessen</button>
         <table>
             <thead>
             <tr>
-                <th>Ranking</th>
-                <th>Score</th>
-                <th>Player(s)</th>
+                <th>Rang</th>
+                <th>Wertung</th>
+                <th>Spieler</th>
             </tr>
             </thead>
             <tbody id="scoreboard-tbody">
@@ -59,7 +60,7 @@
 <section id="timeout-section" hidden>
     <div id="timeout-overlay"></div>
     <div class="timeout-indicator">
-        <p>Evaluating hand ...</p>
+        <p>Spiel wird ausgewertet, bitte warten...</p>
     </div>
 </section>
 </body>
