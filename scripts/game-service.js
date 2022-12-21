@@ -1,6 +1,7 @@
 export const HANDS = ['Schere', 'Stein', 'Papier', 'Brunnen', 'Streichholz'];
 const DELAY_MS = 1000;
 const localUserScores = {};
+const onlineUserScores = {};
 let numericalScores = {};
 let isConnectedState = false;
 const winMap = {
@@ -46,9 +47,17 @@ const evalLookup = {
     },
 };
 
-function getRankingsFromPlayerStats() {
+export function setConnected(newIsConnected) {
+    isConnectedState = Boolean(newIsConnected);
+}
+
+export function isConnected() {
+    return isConnectedState;
+}
+
+function getRankingsFromPlayerStats(scores) {
     numericalScores = {};
-    for (const [playerName, playerScore] of Object.entries(localUserScores)) {
+    for (const [playerName, playerScore] of Object.entries(scores)) {
         if (typeof numericalScores[playerScore] === 'undefined') {
             numericalScores[playerScore] = [playerName];
         } else {
@@ -65,17 +74,22 @@ function getRankingsFromPlayerStats() {
     return sortedScoreboard;
 }
 
-export function setConnected(newIsConnected) {
-    isConnectedState = Boolean(newIsConnected);
-}
-
-export function isConnected() {
-    return isConnectedState;
+function convertOnlineStats(onlineStats) {
+    const players = Object.keys(onlineStats);
+    players.forEach((player) => {
+        onlineUserScores[player] = onlineStats[player].win - onlineStats[player].lost;
+    });
 }
 
 export function getRankings(rankingsCallbackHandlerFn) {
-    const scoreboard = getRankingsFromPlayerStats();
-    rankingsCallbackHandlerFn(scoreboard);
+    if (isConnected()) {
+        const url = 'https://stone.sifs0005.infs.ch/ranking';
+        fetch(url)
+            .then((response) => response.json())
+            .then((responseData) => convertOnlineStats(responseData));
+        return rankingsCallbackHandlerFn(getRankingsFromPlayerStats(onlineUserScores));
+    }
+    return rankingsCallbackHandlerFn(getRankingsFromPlayerStats(localUserScores));
 }
 
 function getGameEval(playerHand, systemHand) {

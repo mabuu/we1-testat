@@ -17,13 +17,11 @@ const toggleServerModeButton = document.getElementById('toggle-server-mode-butto
 let nickname;
 
 HANDS.forEach((hand) => {
-    if (isConnected()) {
-        greetHeader.innerText = 'Servermodus aktiviert';
-    }
     handChoicesDiv.insertAdjacentHTML('beforeend', `
-    <button id="${hand}-button" class="hand-buttons" type="button" value="${hand}">${hand.charAt(0)
-        .toUpperCase() + hand.slice(1)}</button>
-`);
+        <button id="${hand}-button" class="hand-buttons" type="button" value="${hand}">
+            ${hand.charAt(0).toUpperCase() + hand.slice(1)}
+        </button>
+    `);
 });
 
 function toggleVisibility(element) {
@@ -42,38 +40,41 @@ function visualizeTimeout() {
     unhideElement(timeoutSection);
 }
 
-function toggleServerMode() {
-    if (isConnected()) {
-        toggleServerModeButton.innerText = 'Servermodus: aus';
-        setConnected(false);
-        generateHandButtons();
-    } else {
-        toggleServerModeButton.innerText = 'Servermodus: aktiviert';
-        setConnected(true);
-        generateHandButtons();
-    }
-}
-
 function setNickname() {
+    if (nameInput.value.length <= 2) {
+        hideElement(gameSection);
+        greetHeader.innerText = 'Um zu spielen muss ein Name mit mindestens 2 Zeichen angegeben werden!';
+        return;
+    }
     nickname = nameInput.value;
     greetHeader.innerText = `Hallo ${nickname}! Wähle eine Hand:`;
     unhideElement(gameSection);
     hideElement(scoreboardSection);
 }
 
+// helper function to avoid xss
+function createTableData(value) {
+    // eslint-disable-next-line @web-and-design/wed/check-html-gen
+    const td = document.createElement('td');
+    td.textContent = value;
+    return td.innerHTML;
+}
+
 function createScoreboardTable(scoreboard) {
     scoreboard.forEach((scoreboardEntry) => scoreboardTableBody.insertAdjacentHTML(
         'afterbegin', `<tr>
-        <td>${scoreboardEntry[0]}</td>
-        <td>${scoreboardEntry[1].join(' & ')}</td>
+            <td>${createTableData(scoreboardEntry[0])}</td>
+            <td>${createTableData(scoreboardEntry[1].join(' & '))}</td>
         </tr>`,
     ));
 }
 
 function showScoreboardSection() {
+    if (scoreboardSection.hidden) {
+        scoreboardTableBody.innerText = '';
+        getRankings(createScoreboardTable);
+    }
     toggleVisibility(scoreboardSection);
-    scoreboardTableBody.innerText = '';
-    getRankings(createScoreboardTable);
 }
 
 function displayResults(playerHand, computerHand, resultEmoji) {
@@ -86,6 +87,17 @@ function displayResults(playerHand, computerHand, resultEmoji) {
     </tr>`);
     hideElement(timeoutSection);
     unhideElement(resultSection);
+}
+
+function toggleServerMode() {
+    if (isConnected()) {
+        toggleServerModeButton.innerText = 'Servermodus: aus';
+        setConnected(false);
+    } else {
+        toggleServerModeButton.innerText = 'Servermodus: aktiviert';
+        setConnected(true);
+        getRankings(createScoreboardTable);
+    }
 }
 
 toggleServerModeButton.addEventListener('click', toggleServerMode);
